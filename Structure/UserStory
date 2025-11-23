@@ -1,0 +1,11 @@
+AS A Player:
+I Want to see all open cards For a short time at the beginning of the game to save the image locations.
+I want to close all cards after short time at the beginning.
+I want to can click on two cards for explor what inside these cards.
+I want to The two cards should remain open if they are identical.
+I want to close two cards they open if do not identical but, after few period for can see what inside the cards.
+I want to target attempts number and display upper right side.
+I want to target time, I spend playing to be tracked and displayed in the top left side.
+I want to display win message after finish all pair cards.
+I want to display lose message if finish attempts number before finish all pair cards.
+I want to button for reset game in any time.

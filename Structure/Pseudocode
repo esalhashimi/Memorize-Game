@@ -1,0 +1,30 @@
+A) init Game:
+    1) Build menue from pair image (6 image *2) = 12 cards.
+    2) shift order menue (Random cards).
+    3) display all cards open For a specific period of time (3 Second).
+    4) Start Timer.
+    5) Set the maximum number of attempts (15).
+    6) display max attempts and current time.
+
+B) Card click function:
+    1) If the card is closed and not among the currently open cards:
+        A) Open the card.
+        B) add the two cards to open cards menue, if identical.   
+    2) If the open list contains two cards:
+        A) increase number of attempts.
+        B) check from identical.
+    3) if identical cards:
+        A) Mark as two cards.
+        B) move to menue cards open now.
+        C) check from win: if all cards attempts, Stop the timer and display win message.
+    4) if do not attempts image:
+        A) wait few period (1 Second).
+        B) Close two cards.
+        C) Move menue cards from Close now.
+        D) Check from lose: If the number of attempts reaches the maximum and the process is not completed,
+         the timer will stop and a loss message will be displayed.
+    5) Reset game function:
+        A) Reset all variable (Time,attempts,openCards).
+        B) Stop and Reset start the timer.
+        C) Remove all old cards.
+        D) Start init function to start game again.

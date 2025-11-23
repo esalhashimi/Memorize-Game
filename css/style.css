@@ -1,0 +1,124 @@
+@import url('https://fonts.googleapis.com/css2?family=Londrina+Solid:wght@100;300;400;900&family=Playwrite+CZ:wght@100..400&display=swap');
+
+/*Defult*/
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family:"Londrina Solid","sans-serif";
+}
+
+/* body */
+body{
+    background-color:white;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* All component the game */
+
+.game-container{
+    width: 350px;
+    height: 250px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    
+
+}
+
+/*Title*/
+h1{
+    font-size: 50px;
+color: #00bf63;
+text-align: center;
+}
+
+/* div timer and div Attemps */
+.Info-Bar{
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+  
+}
+
+/* span Timmer, span Attemps and max Attemps  */ 
+#time-elapsed, #move-count, #max-move{
+color: red;
+}
+
+/* All component the grid */
+#game-board{
+    padding: 20px;
+    display: grid;
+    gap: 20px;
+    padding: 10px;
+    grid-template-columns: repeat(3,auto);
+    border: 1px solid black;
+    justify-content: space-around;
+    perspective: 1000;
+}
+
+/* All image inside grid */
+#game-board img{
+    border: 1px solid black;
+    width: 50px;
+    height: 80px;
+    cursor: pointer;
+}
+
+/* card game */
+.card{
+    width: 50px;
+    height: 80px;
+    border: 1px solid white;
+    border-radius: 10px;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: all .2s;
+    box-shadow: 1px 1px 10px black;
+}
+
+/* after clic the card */
+.card:active{
+    transform: scale(.95);
+    transition:.2s;
+}
+
+/*flip card */
+.card.flip{
+    transform: rotateY(180deg);
+}
+
+/* Front Card, Back Card */
+.front-card, .back-card{
+position: absolute;
+width: 100%;
+height: 100%;
+border-radius: 10px;
+backface-visibility: hidden;
+}
+
+/* Front Card */
+.front-card{
+    transform: rotateY(180deg);
+     pointer-events: none;
+}
+
+
+/* the button in main page */
+#restart-btn{
+background-color: #00459e ;
+color: white;
+font-size: 30px;
+width: 150px;
+height: 100px;
+margin-top: 20px;
+margin-left: 77px;
+border-radius: 20px;
+cursor: pointer;
+
+
+}
