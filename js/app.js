@@ -2,7 +2,7 @@
 
 let firstCard = null; // for add flip in First Card
 let secondCard = null; // for add flip in Second Card
-let image1 = null; // for add Path Image  in First Card
+let image1 = null; // for add Path Image  in First Card
 let image2 = null;// for add Path Image in Second Card
 let canClick = true; // if not match can not click befor timeoun finish
 let score = 0; //for win the game
@@ -14,6 +14,8 @@ let timer; // for timer increase
 let second = 0; //to track the second
 let minutes =0; //to track the minutes
 let audio = new Audio(); // Build Audio
+let initTimeout; // for init setTimeout variable gor store time
+
 /*------------------------ Cached Element References ------------------------*/
 
 const allCards = document.querySelectorAll(".card"); // for controll All Cards
@@ -21,9 +23,9 @@ const AttempsCount = document.querySelector("#move-count"); // for increase Coun
 const timeElapsed = document.querySelector("#time-elapsed") // for calculate timer
 const resetButton = document.querySelector("#restart-btn");// for after click button reset
 const titleResult = document.querySelector("#modal-title"); // for put title the result
-const descripeResult = document.querySelector("#model-text"); // for put the result if win or lose
-/*----------------------------- Event Listeners -----------------------------*/
+const descripeResult = document.querySelector("#modal-text"); // for put the result if win or lose
 
+/*----------------------------- Event Listeners -----------------------------*/
 
 //for add Event for All Cards after click use handleCardClicket
 for(let card = 0 ; card<allCards.length ; card++){
@@ -36,16 +38,30 @@ init() // for init the game and reset
 /*-------------------------------- Functions --------------------------------*/
 
 // For can see the game befor start game
-function init() {
-    clearInterval(timer);
+function init(Event) {
+    clearInterval(timer); // stop the temporary
+    clearTimeout(initTimeout); // for cancellation
+    
+    // for remove the event and add event to prevent replace the event
+    for(let card=0; card<allCards.length ; card++){
+        allCards[card].removeEventListener("click", handleCardClicked);
+        allCards[card].addEventListener("click", handleCardClicked);
+        allCards[card].classList.remove("flip");
+        // **NEW (Fix 3): Clean 'matched' class for a new game**
+        allCards[card].classList.remove("matched"); 
+    }
+    
+    score = 0; // reset the result
     shuffleCards(); // For change place card befor Play
+    
+    //display the card after 3 second
     for (let i = 0; i < allCards.length; i++) {
         allCards[i].classList.add("flip");
     }
 
     canClick = false;
 
-    setTimeout(() => {
+    initTimeout = setTimeout(() => {
         for (let i = 0; i < allCards.length; i++) {
             allCards[i].classList.remove("flip");
         }
@@ -54,25 +70,30 @@ function init() {
     }, 3000);
 
     second = 0;
+    minutes = 0;
     timeElapsed.textContent = "00 : 00"; // for display the init time
     count = 0;
     AttempsCount.textContent = count;
     titleResult.textContent = "";
-descripeResult.innerHTML = "";
- playSound();// Play the sound
+    descripeResult.innerHTML = "";
+    if(Event && Event.target && Event.target.id === "restart-btn"){
+        playSound("Reset","wav"); // play Reset sound
+    }
 }
 
 // handle clicking on a card
 function handleCardClicked(Event){
-    playSound(); //Play the sound
-    if(canClick === false){
+    playSound("click","wav"); //Play the click sound
+    
+    if(canClick === false || Event.target.closest('.card').classList.contains("matched")){
         return;
     }
-   const clickedCard = Event.target.closest('.card'); // for use closer parent to card
+    
+    const clickedCard = Event.target.closest('.card'); // for use closer parent to card
 
-   const frontCardImage = clickedCard.querySelector("img"); // for controll the Image Element
+    const frontCardImage = clickedCard.querySelector("img"); // for controll the Image Element
 
-   const frontCardPath = frontCardImage.src; //for bring Path Image 
+    const frontCardPath = frontCardImage.src; //for bring Path Image 
 
 //prevent card double click
 if(clickedCard.classList.contains("flip")){
@@ -83,41 +104,39 @@ if(clickedCard.classList.contains("flip")){
         // store flip to firstCard and SecondCard
         if(firstCard === null){
             firstCard = clickedCard;
+            image1 = frontCardPath; // Store image path right away
         }
         else if(secondCard === null){
             secondCard = clickedCard;
+            image2 = frontCardPath; // Store image path right away
         }
 
-        // store Image Path to image1 and image2
-        if(image1 === null){
-
-            image1 = frontCardPath;
-            
-        }
-        else if(image2 === null){
-            image2 = frontCardPath;
-        }
 
         //for handle matching condition
-        if(image1 === image2){
+        if(image1 === image2 && image1 !== null){
+            // **NEW (Fix 1): Add 'matched' class to keep cards open on finish**
+            firstCard.classList.add("matched"); 
+            secondCard.classList.add("matched"); 
+            
             Attemps();
             firstCard = null;
             secondCard = null;
             image1 = null;
             image2 = null;
-           
+            
             score++;
             if(score === 6){
                 handleGameOver();
             }
-           
+            
         }
         
         //For non matching but the both card have the card store
         else if(image1 !== null && image2 !== null){
+            Attemps(); // Count attempt before timeout
             canClick = false;
             setTimeout(() =>{
-                 
+                
             firstCard.classList.remove("flip");
             secondCard.classList.remove("flip");
             firstCard = null;
@@ -127,30 +146,37 @@ if(clickedCard.classList.contains("flip")){
             canClick = true;
             },1000);
         }
-        Attemps();
 }
 
 // for after finish the game
 function handleGameOver(){
     clearInterval(timer);
-if(count === max){
-    message = "You lose";
-}
-else{
-    message = "You win";
-}
+    
+    if(count >= max && score < 6){
+        message = "You lose";
+    }
+    else if(score === 6){
+        message = "You win";
+        playSound("win","wav");
+    }
 
-//for store time Elapsed for finish the game and display the result
-const finalTime = timeElapsed.textContent;
-titleResult.textContent = "The Result is ";
-descripeResult.innerHTML = message + "<br>" +
- "Number of Attempts: " + count + "<br>" + "Timer: " + finalTime;
-canClick = false;
-for(let card = 0 ; i<allCards.length ; card++){
-    card.classList.remove("flip");
-    card.removeEventListener("click", handleCardClicked);
-    card.classList.add("Game Over Disabled");
-}
+    // display the result
+    titleResult.textContent = "The Result is ";
+    descripeResult.innerHTML = message + "<br>" +
+    "Number of Attempts: " + count + "<br>" + 
+    "Timer: " + timeElapsed.textContent;
+    
+    canClick = false;
+    
+    // **NEW (Fix 2): Only close non-matched cards**
+    for(let card = 0 ; card<allCards.length ; card++){
+        // If the card is NOT 'matched', remove 'flip' (close it)
+        if(!allCards[card].classList.contains("matched")){ 
+            allCards[card].classList.remove("flip");
+        }
+        // Always remove the event listener to lock the game
+        allCards[card].removeEventListener("click", handleCardClicked);
+    }
 }
 
 
@@ -168,7 +194,7 @@ function Attemps(){
         count++;
         AttempsCount.textContent = count;
     }
-    if(count === max){
+    if(count >= max && score < 6){
         handleGameOver();
     }
     
@@ -186,11 +212,19 @@ function startTimer(){
 
         timeElapsed.textContent = `${formattedMinutes} : ${formattedSeconds}`;
         
-},1000);
+    },1000);
 }
 
 //controll the sound
-function playSound(){
-    audio.src = "../sound/click.wav";
-    audio.play();
+function playSound(name,Path){
+    // stop terminate and setup
+    audio.pause();
+    audio.currentTime = 0;
+    
+    // set a new path
+    audio.src = "../sound/" + name + "." + Path;
+    
+    // Attempting to run with error handling
+    audio.play().catch(error => {
+    });
 }
