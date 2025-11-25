@@ -15,7 +15,6 @@ let second = 0; //to track the second
 let minutes =0; //to track the minutes
 let audio = new Audio(); // Build Audio
 let initTimeout; // for init setTimeout variable gor store time
-
 /*------------------------ Cached Element References ------------------------*/
 
 const allCards = document.querySelectorAll(".card"); // for controll All Cards
@@ -23,8 +22,8 @@ const AttempsCount = document.querySelector("#move-count"); // for increase Coun
 const timeElapsed = document.querySelector("#time-elapsed") // for calculate timer
 const resetButton = document.querySelector("#restart-btn");// for after click button reset
 const titleResult = document.querySelector("#modal-title"); // for put title the result
-const descripeResult = document.querySelector("#modal-text"); // for put the result if win or lose
-
+const descripeResult = document.querySelector("#modal-text"); // for put the result (Atemps,time);
+const result = document.querySelector("#modal-result"); // for result win or lose
 /*----------------------------- Event Listeners -----------------------------*/
 
 //for add Event for All Cards after click use handleCardClicket
@@ -47,7 +46,7 @@ function init(Event) {
         allCards[card].removeEventListener("click", handleCardClicked);
         allCards[card].addEventListener("click", handleCardClicked);
         allCards[card].classList.remove("flip");
-        // **NEW (Fix 3): Clean 'matched' class for a new game**
+        //  Clean 'matched' class for a new game
         allCards[card].classList.remove("matched"); 
     }
     
@@ -76,6 +75,7 @@ function init(Event) {
     AttempsCount.textContent = count;
     titleResult.textContent = "";
     descripeResult.innerHTML = "";
+    result.innerHTML = "";
     if(Event && Event.target && Event.target.id === "restart-btn"){
         playSound("Reset","wav"); // play Reset sound
     }
@@ -114,16 +114,19 @@ if(clickedCard.classList.contains("flip")){
 
         //for handle matching condition
         if(image1 === image2 && image1 !== null){
-            // **NEW (Fix 1): Add 'matched' class to keep cards open on finish**
+            // Add 'matched' class to keep cards open on finish
             firstCard.classList.add("matched"); 
             secondCard.classList.add("matched"); 
             
+            //increase by 1 Attemps for each two card
             Attemps();
+
             firstCard = null;
             secondCard = null;
             image1 = null;
             image2 = null;
             
+            // for win
             score++;
             if(score === 6){
                 handleGameOver();
@@ -153,22 +156,26 @@ function handleGameOver(){
     clearInterval(timer);
     
     if(count >= max && score < 6){
+     result.style.color = "red";
         message = "You lose";
+        playSound("lose","mp3");
     }
     else if(score === 6){
+        result.style.color = "#00FF00";
         message = "You win";
         playSound("win","wav");
     }
 
     // display the result
     titleResult.textContent = "The Result is ";
-    descripeResult.innerHTML = message + "<br>" +
+    result.innerHTML = message;
+    descripeResult.innerHTML = "<br>" +
     "Number of Attempts: " + count + "<br>" + 
     "Timer: " + timeElapsed.textContent;
     
     canClick = false;
     
-    // **NEW (Fix 2): Only close non-matched cards**
+    //  Only close non-matched cards
     for(let card = 0 ; card<allCards.length ; card++){
         // If the card is NOT 'matched', remove 'flip' (close it)
         if(!allCards[card].classList.contains("matched")){ 
@@ -188,7 +195,7 @@ function shuffleCards(){
     }
 }
 
-//for count Attemps
+//for count Attemps, each Attemps count increase by1 and if count = 15 finish the game
 function Attemps(){
     if(image1 !== null && image2 !== null){
         count++;

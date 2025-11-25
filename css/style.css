@@ -26,13 +26,11 @@ body{
     padding: 20px;
     display: flex;
     flex-direction: column;
-    
-
 }
 
 /*Title*/
 h1{
-    font-size: 50px;
+    font-size: 40px;
 color: #00bf63;
 text-align: center;
 }
@@ -67,8 +65,9 @@ color: red;
     border: 1px solid black;
     width: 50px;
     height: 80px;
-    cursor: pointer;
+    cursor: pointer;   
 }
+
 
 /* card game */
 .card{
@@ -114,10 +113,10 @@ backface-visibility: hidden;
 background-color: #00459e ;
 color: white;
 font-size: 30px;
-width: 150px;
+width: 300px;
 height: 100px;
 margin-top: 20px;
-margin-left: 77px;
+margin-left: 3px;
 border-radius: 20px;
 cursor: pointer;
 
@@ -125,5 +124,10 @@ cursor: pointer;
 }
 #modal-title{
     margin-top: 70px;
-    color: #00bf63;
+    margin-left: 70px;
+    color:#004D40;
+}
+
+#modal-result{
+    font-size: 20px;
 }
