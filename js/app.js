@@ -229,7 +229,7 @@ function playSound(name,Path){
     audio.currentTime = 0;
     
     // set a new path
-    audio.src = "./assets/" + name + "." + Path;
+    audio.src = "./assets/sound/" + name + "." + Path;
     
     // Attempting to run with error handling
     audio.play().catch(error => {
