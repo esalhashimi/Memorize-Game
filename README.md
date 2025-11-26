@@ -1,5 +1,6 @@
 1- Screenshot/Logo:
-<img width="355" height="285" alt="image" src="https://github.com/user-attachments/assets/55e90197-81d8-4999-85a5-b689a09212e3" />
+<img width="865" height="575" alt="image" src="https://github.com/user-attachments/assets/f3263e66-265a-4e8b-b0b2-744ce13f9fdf" />
+
 
 2- Your game's name:
   A) Name: Sayed Isa Hashim ISa Yusuf Alhashimi
