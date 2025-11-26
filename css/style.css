@@ -10,7 +10,7 @@
 
 /* body */
 body{
-    background:url("../assets/background.jpg");
+    background:url("./assets/background.jpg");
     background-color:white;
     color: #333;
     display: flex;
