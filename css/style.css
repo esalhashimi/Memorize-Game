@@ -122,12 +122,90 @@ cursor: pointer;
 
 
 }
+
+/* for title the result */
 #modal-title{
     margin-top: 70px;
     margin-left: 70px;
     color:#004D40;
 }
 
+/* for result win or lose */
 #modal-result{
     font-size: 20px;
+}
+
+
+/* for Response design if the max-size 500px and less*/
+@media(max-width:500px){
+
+/* All component the game */
+.game-container{
+    width: 210px;
+    height: 200px;
+    padding: 10px;
+}
+
+/* div timer and div Attemps */
+.Info-Bar{
+justify-content: left;
+
+}
+
+/* for div Attemps data*/
+.Attemps{
+padding-left: 5px;
+}
+
+/* for button Reset the game*/
+#restart-btn{
+font-size: 20px;
+margin-left: 0.1px;
+width: 200px;
+height: 100px;
+
+}
+
+/*Title*/
+h1{
+    font-size: 20px;
+}
+
+/* All component the grid */
+#game-board{
+    padding: 20px;
+    gap: 10px;
+    padding: 5px;
+}
+
+/* All image inside grid */
+#game-board img{
+    width: 30px;
+    height: 60px;  
+}
+
+
+/* card game */
+.card{
+    width: 30px;
+    height: 60px;
+    box-shadow: 1px 1px 10px black;
+}
+
+
+/* for title the result */
+#modal-title{
+    margin-left: 10px;
+    font-size: 20px;
+}
+
+/* for result win or lose */
+#modal-result{
+    font-size: 25px;
+}
+
+/* for data the Attemps and timer*/
+#modal-text{
+    font-size: 20px;
+}
 }

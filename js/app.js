@@ -170,7 +170,7 @@ function handleGameOver(){
     titleResult.textContent = "The Result is ";
     result.innerHTML = message;
     descripeResult.innerHTML = "<br>" +
-    "Number of Attempts: " + count + "<br>" + 
+    "Attempts: " + count + "<br>" + 
     "Timer: " + timeElapsed.textContent;
     
     canClick = false;
